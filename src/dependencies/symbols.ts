@@ -1,6 +1,7 @@
 const Infrastructure = {
   Config: Symbol.for("InfrastructureConfig"),
   Db: Symbol.for("InfrastructureDb"),
+  Server: Symbol.for("InfrastructureServer"),
 };
 
 const Service = {

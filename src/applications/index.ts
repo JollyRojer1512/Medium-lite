@@ -1,32 +1,16 @@
 import "reflect-metadata";
 import * as sm from "source-map-support";
 import { Container } from "../dependencies";
+import { Server } from "../components/server";
 import { Symbols } from "../dependencies/symbols";
-import { UserService } from "../architecture/service/main/user";
-import { PostService } from "../architecture/service/main/post";
 
 sm.install();
 
 async function start(): Promise<void> {
   await Container.init();
-  const userService = Container.Services.get<UserService>(
-    Symbols.Architecture.Service.Main.User
-  );
-  const postService = Container.Services.get<PostService>(
-    Symbols.Architecture.Service.Main.Post
-  );
-  const user = await userService.createNew({
-    email: "test2@email.com",
-    password: "testPassword3",
-  });
+  const server = Container.Services.get<Server>(Symbols.Infrastructure.Server);
 
-  const post = await postService.createNew({
-    title: "My First Post",
-    content: "First post",
-    author: user,
-  });
-
-  console.log(post);
+  server.listen();
 }
 
 setImmediate(start);
