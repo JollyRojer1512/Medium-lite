@@ -7,6 +7,8 @@ type UserServiceCreateNewParams = Omit<UserModel, "id" | "createTime">;
 
 export interface UserService {
   createNew(params: UserServiceCreateNewParams): Promise<User>;
+
+  getById(id: number): Promise<User | undefined>;
 }
 
 @injectable()
@@ -21,5 +23,9 @@ export class UserServiceImpl implements UserService {
     entity.email = params.email;
     entity.password = params.password;
     return await this.repository.insertOne(entity);
+  }
+
+  async getById(id: number): Promise<User | undefined> {
+    return await this.repository.getById(id);
   }
 }

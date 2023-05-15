@@ -1,8 +1,8 @@
 import { Request as ExpressRequest } from "express";
 
-export class Request {
+export class Request<Data> {
   private readonly headers: Record<string, string | string[] | undefined>;
-  private readonly body: Record<string, any>;
+  private readonly body: Data;
 
   constructor(private readonly request: ExpressRequest) {
     this.headers = this.request.headers;
@@ -12,5 +12,9 @@ export class Request {
 
   get responseHeaders(): Record<string, string> {
     return {};
+  }
+
+  get params(): Data {
+    return this.body;
   }
 }
