@@ -3,7 +3,7 @@ import { Symbols } from "../../../dependencies/symbols";
 import { UserRepository } from "../../repository/main/user";
 import { User, UserModel } from "../../../components/models/main/user";
 
-type UserServiceCreateNewParams = Omit<UserModel, "id" | "create_time">;
+type UserServiceCreateNewParams = Omit<UserModel, "id" | "createTime">;
 
 export interface UserService {
   createNew(params: UserServiceCreateNewParams): Promise<User>;

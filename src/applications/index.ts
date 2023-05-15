@@ -3,6 +3,7 @@ import * as sm from "source-map-support";
 import { Container } from "../dependencies";
 import { Symbols } from "../dependencies/symbols";
 import { UserService } from "../architecture/service/main/user";
+import { PostService } from "../architecture/service/main/post";
 
 sm.install();
 
@@ -11,12 +12,21 @@ async function start(): Promise<void> {
   const userService = Container.Services.get<UserService>(
     Symbols.Architecture.Service.Main.User
   );
-  const result = await userService.createNew({
-    email: "test@email.com",
-    password: "testPassword2",
+  const postService = Container.Services.get<PostService>(
+    Symbols.Architecture.Service.Main.Post
+  );
+  const user = await userService.createNew({
+    email: "test2@email.com",
+    password: "testPassword3",
   });
 
-  console.log(result);
+  const post = await postService.createNew({
+    title: "My First Post",
+    content: "First post",
+    author: user,
+  });
+
+  console.log(post);
 }
 
 setImmediate(start);

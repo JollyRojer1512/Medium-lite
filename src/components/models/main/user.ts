@@ -3,7 +3,7 @@ import { TableNames } from "../types";
 
 export interface UserModel {
   id: number;
-  create_time: number; // Best with ISODate but typeorm cut off time
+  createTime: number; // Best with ISODate but typeorm cut off time
   email: string;
   password: string;
 }
@@ -14,9 +14,9 @@ export class User implements UserModel {
   readonly id!: number;
 
   @Column({ type: "integer", update: false })
-  readonly create_time = new Date().getTime();
+  readonly createTime = new Date().getTime();
 
-  @Column({ type: "text", length: 20 })
+  @Column({ type: "text", length: 20, unique: true })
   email!: string;
 
   @Column({ type: "text", length: 20 })

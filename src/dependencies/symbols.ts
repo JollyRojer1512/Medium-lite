@@ -6,11 +6,13 @@ const Infrastructure = {
 const Service = {
   Main: {
     User: Symbol.for("ServiceMainUser"),
+    Post: Symbol.for("ServiceMainPost"),
   },
 };
 const Repository = {
   Main: {
     User: Symbol.for("RepositoryMainUser"),
+    Post: Symbol.for("RepositoryMainPost"),
   },
 };
 
