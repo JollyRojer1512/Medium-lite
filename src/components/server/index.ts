@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 import { Symbols } from "../../dependencies/symbols";
 import { Config, ServerConfig } from "../config";
-import { ServerIsListeningError } from "../error/list";
 import { App } from "./app";
+import { ServerIsListeningError } from "../error/list";
 
 export interface Server {
   listen(): Promise<void>;

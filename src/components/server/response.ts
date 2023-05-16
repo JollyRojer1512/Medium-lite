@@ -3,13 +3,13 @@ import { Response as ExpressResponse } from "express";
 export class Response {
   constructor(private readonly response: ExpressResponse) {}
 
-  async end(result: unknown): Promise<void> {
-    await this.response.writeHead(200, {});
-    await this.response.end(result);
-  }
+  async success(data: any): Promise<void> {
+    const result = Buffer.from(JSON.stringify(data));
 
-  async error(error: unknown): Promise<void> {
-    await this.response.writeHead(200, {});
-    await this.response.end(error);
+    this.response.writeHead(200, {
+      "Content-Type": "application/json",
+      "Content-Length": result.length,
+    });
+    this.response.end(result);
   }
 }

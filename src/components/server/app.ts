@@ -6,15 +6,23 @@ import express, {
 } from "express";
 import { Request } from "./request";
 import { Response } from "./response";
+import { ParamsDeclaration } from "../../api/usecases/types";
+import { Context } from "./context";
+
+export type RequestHandlerParams<P, R> = {
+  name: string;
+  usecase(context: Context<P>): Promise<R>;
+  params?: ParamsDeclaration<P>;
+};
 
 export interface App {
   listen(host: string, port: number): Promise<void>;
 
   init(): Promise<void>;
 
-  addGetHandler(name: string, func: Function): Promise<void>;
+  addGetHandler<P, R>(params: RequestHandlerParams<P, R>): Promise<void>;
 
-  addPostHandler(name: string, func: Function): Promise<void>;
+  addPostHandler<P, R>(params: RequestHandlerParams<P, R>): Promise<void>;
 }
 
 @injectable()
@@ -35,30 +43,38 @@ export class AppImpl implements App {
     // );
   }
 
-  async addGetHandler(name: string, func: Function): Promise<void> {
+  async addGetHandler<P, R>(params: RequestHandlerParams<P, R>): Promise<void> {
     this.client.get(
-      name,
+      params.name,
       async (req: ExpressRequest, res: ExpressResponse) =>
-        await this.handleRequest(req, res, func)
+        await this.handleRequest<P, R>(req, res, params)
     );
   }
 
-  async addPostHandler(name: string, func: Function): Promise<void> {
-    this.client.post(name, async (req: Request) => await func(req));
+  async addPostHandler<P, R>(
+    params: RequestHandlerParams<P, R>
+  ): Promise<void> {
+    this.client.post(
+      params.name,
+      async (req: ExpressRequest, res: ExpressResponse) =>
+        await this.handleRequest<P, R>(req, res, params)
+    );
   }
 
-  private async handleRequest(
+  private async handleRequest<P, R>(
     req: ExpressRequest,
     res: ExpressResponse,
-    nextFunction: Function
+    params: RequestHandlerParams<P, R>
   ): Promise<void> {
-    const request = new Request(req);
+    const request = new Request<P>(req);
     const response = new Response(res);
     try {
-      const result = await nextFunction(request);
-      await response.end(result);
+      if (params.params) request.validateBodyParams(params.params);
+      const context = new Context<P>(request.bodyParams);
+      const result = await params.usecase(context);
+      await response.success(result);
     } catch (e) {
-      await response.error(e);
+      await response.success(e);
     }
   }
 }

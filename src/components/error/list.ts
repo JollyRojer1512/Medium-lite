@@ -19,3 +19,14 @@ export class ServerIsListeningError extends BaseError {
     super(message[lang], ErrorCodes.serverIsListening);
   }
 }
+
+export class InvalidParamError extends BaseError {
+  constructor(name: string, lang: UserLanguage = UserLanguage.ru) {
+    const message = {
+      uz: `Invalid Param ${name}`,
+      ru: `Invalid Param ${name}`,
+      en: `Invalid Param ${name}`,
+    };
+    super(message[lang], ErrorCodes.serverIsListening);
+  }
+}

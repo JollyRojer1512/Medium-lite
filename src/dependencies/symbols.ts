@@ -24,11 +24,28 @@ const Architecture = {
 };
 
 const Module = {
-  User: Symbol.for("ApiModuleUser"),
+  Main: {
+    User: Symbol.for("ApiModuleMainUser"),
+  },
+};
+const Usecase = {
+  Collection: {
+    Main: {
+      User: Symbol.for("ApiUsecaseCollectionMainUser"),
+    },
+  },
+  Single: {
+    Main: {
+      User: {
+        GetOne: Symbol.for("ApiUsecaseSingleMainUserGetOne"),
+      },
+    },
+  },
 };
 
 const Api = {
   Module,
+  Usecase,
 };
 
 export const Symbols = {

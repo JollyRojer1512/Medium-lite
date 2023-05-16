@@ -4,7 +4,6 @@ import { Symbols } from "./symbols";
 import { Db } from "../components/db";
 import { ArchitectureContainer } from "./containers/architecture";
 import { ApiContainer } from "./containers/api";
-import { UserModule } from "../api/modules/user";
 
 export class Container {
   static Services = new InversifyContainer();
@@ -37,10 +36,11 @@ export class Container {
     await db.init();
   }
 
-  private static async initModules(): Promise<any[]> {
-    const modules = [
-      Container.Services.get<UserModule>(Symbols.Api.Module.User),
-    ];
-    return modules;
+  private static async initModules(): Promise<void> {
+    const symbols = Symbols.Api.Module.Main;
+    for (const module in symbols) {
+      //@ts-ignore Works but ts does not like symbol element
+      Container.Services.get(symbols[module]);
+    }
   }
 }
