@@ -1,6 +1,6 @@
 import { Request as ExpressRequest } from "express";
 import { ParamDeclaration, ParamsDeclaration } from "../../api/usecases/types";
-import { InvalidParamError } from "../error/list";
+import { InvalidParam } from "../error/list";
 
 export class Request<Body> {
   private readonly _headers: Record<string, string | string[] | undefined>;
@@ -56,11 +56,11 @@ export class Request<Body> {
           ? field.default()
           : field.default;
       }
-      throw new InvalidParamError(name);
+      throw new InvalidParam(name);
     }
 
     if (typeof value !== field.type) {
-      throw new InvalidParamError(name);
+      throw new InvalidParam(name);
     }
 
     if (field.coerce) {
@@ -68,7 +68,7 @@ export class Request<Body> {
     }
 
     if (typeof field.validate == "function" && !field.validate(value)) {
-      throw new InvalidParamError(name);
+      throw new InvalidParam(name);
     }
 
     if (field.convert) {

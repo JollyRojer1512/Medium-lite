@@ -9,7 +9,7 @@ export class BaseError {
   ) {}
 }
 
-export class ServerIsListeningError extends BaseError {
+export class ServerIsListening extends BaseError {
   constructor(lang: UserLanguage = UserLanguage.ru) {
     const message = {
       uz: "Server allaqachon ishlamoqda",
@@ -20,12 +20,23 @@ export class ServerIsListeningError extends BaseError {
   }
 }
 
-export class InvalidParamError extends BaseError {
+export class InvalidParam extends BaseError {
   constructor(name: string, lang: UserLanguage = UserLanguage.ru) {
     const message = {
       uz: `Invalid Param ${name}`,
       ru: `Invalid Param ${name}`,
       en: `Invalid Param ${name}`,
+    };
+    super(message[lang], ErrorCodes.serverIsListening);
+  }
+}
+
+export class UserNotFound extends BaseError {
+  constructor(lang: UserLanguage = UserLanguage.ru) {
+    const message = {
+      uz: `Foydalanuvchi topilmadi`,
+      ru: `Пользователь не найден`,
+      en: `User not found`,
     };
     super(message[lang], ErrorCodes.serverIsListening);
   }

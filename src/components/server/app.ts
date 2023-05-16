@@ -11,7 +11,9 @@ import { Context } from "./context";
 
 export type RequestHandlerParams<P, R> = {
   name: string;
-  usecase(context: Context<P>): Promise<R>;
+  usecase(
+    context: Context<P | undefined, undefined | Record<string, string>>
+  ): Promise<R>;
   params?: ParamsDeclaration<P>;
 };
 
@@ -70,7 +72,10 @@ export class AppImpl implements App {
     const response = new Response(res);
     try {
       if (params.params) request.validateBodyParams(params.params);
-      const context = new Context<P>(request.bodyParams);
+      const context = new Context<
+        P | undefined,
+        undefined | Record<string, string>
+      >(request.bodyParams, request.queryParams);
       const result = await params.usecase(context);
       await response.success(result);
     } catch (e) {

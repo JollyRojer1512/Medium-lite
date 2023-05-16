@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { Symbols } from "../../dependencies/symbols";
 import { Config, ServerConfig } from "../config";
 import { App } from "./app";
-import { ServerIsListeningError } from "../error/list";
+import { ServerIsListening } from "../error/list";
 
 export interface Server {
   listen(): Promise<void>;
@@ -25,7 +25,7 @@ export class ServerImpl implements Server {
   }
 
   async listen(): Promise<void> {
-    if (this.isStarted) throw new ServerIsListeningError();
+    if (this.isStarted) throw new ServerIsListening();
     this.isStarted = true;
     await this.app.init();
     this.app.listen(this.api.host, this.api.port);

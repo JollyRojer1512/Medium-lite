@@ -43,9 +43,25 @@ const Usecase = {
   },
 };
 
+const Presenter = {
+  Collection: {
+    Main: {
+      User: Symbol.for("ApiPresenterCollectionMainUser"),
+    },
+  },
+  Single: {
+    Main: {
+      User: {
+        GetOne: Symbol.for("ApiPresenterSingleMainUserGetOne"),
+      },
+    },
+  },
+};
+
 const Api = {
   Module,
   Usecase,
+  Presenter,
 };
 
 export const Symbols = {

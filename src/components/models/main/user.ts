@@ -8,6 +8,8 @@ export interface UserModel {
   password: string;
 }
 
+export type UserPresenter = Omit<UserModel, "createTime" | "password">;
+
 @Entity({ name: TableNames.users })
 export class User implements UserModel {
   @PrimaryGeneratedColumn()
@@ -21,4 +23,11 @@ export class User implements UserModel {
 
   @Column({ type: "text", length: 20 })
   password!: string;
+
+  presenter(): UserPresenter {
+    return {
+      id: this.id,
+      email: this.email,
+    };
+  }
 }

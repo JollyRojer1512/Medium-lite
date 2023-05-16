@@ -1,30 +1,37 @@
-import { injectable } from "inversify";
-import { ParamsDeclaration } from "../../types";
+import { inject, injectable } from "inversify";
 import { Context } from "../../../../components/server/context";
+import { User } from "../../../../components/models/main/user";
+import { Symbols } from "../../../../dependencies/symbols";
+import { UserService } from "../../../../architecture/service/main/user";
+import { UserNotFound } from "../../../../components/error/list";
 
-export const UserGetOneUsecaseInputParams: ParamsDeclaration<UserGetOneUsecaseInput> =
-  {};
-
-export type UserGetOneUsecaseInput = {};
-export type UserGetOneUsecaseOutput = {
-  response: string;
+export type UserGetOneUsecaseInput = {
+  id: string;
+};
+type UserGetOneUsecaseOutput = {
+  user: User;
 };
 
 export interface UserGetOneUsecase {
   execute(
-    context: Context<UserGetOneUsecaseInput>
+    context: Context<undefined, UserGetOneUsecaseInput>
   ): Promise<UserGetOneUsecaseOutput>;
 }
 
 @injectable()
 export class UserGetOneUsecaseImpl implements UserGetOneUsecase {
-  constructor() {}
+  constructor(
+    @inject(Symbols.Architecture.Service.Main.User)
+    private readonly userService: UserService
+  ) {}
 
   async execute(
-    context: Context<UserGetOneUsecaseInput>
+    context: Context<undefined, UserGetOneUsecaseInput>
   ): Promise<UserGetOneUsecaseOutput> {
-    return {
-      response: JSON.stringify(context.params),
-    };
+    const user = await this.userService.getById(
+      parseInt(context.queryParams.id)
+    );
+    if (!user) throw new UserNotFound();
+    return { user };
   }
 }
