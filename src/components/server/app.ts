@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import * as core from "express-serve-static-core";
 import express, {
+  json,
   Request as ExpressRequest,
   Response as ExpressResponse,
 } from "express";
@@ -40,9 +41,8 @@ export class AppImpl implements App {
   }
 
   async init(): Promise<void> {
-    // this.client.all("/", async (req, res, next) =>
-    //   this.handleRequest(req, res, next)
-    // );
+    // this.client.use(bodyParser.urlencoded({ extended: true }));
+    // this.client.use(bodyParser.json());
   }
 
   async addGetHandler<P, R>(params: RequestHandlerParams<P, R>): Promise<void> {
@@ -58,6 +58,7 @@ export class AppImpl implements App {
   ): Promise<void> {
     this.client.post(
       params.name,
+      json(),
       async (req: ExpressRequest, res: ExpressResponse) =>
         await this.handleRequest<P, R>(req, res, params)
     );

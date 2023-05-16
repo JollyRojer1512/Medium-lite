@@ -38,6 +38,7 @@ const Usecase = {
     Main: {
       User: {
         GetOne: Symbol.for("ApiUsecaseSingleMainUserGetOne"),
+        CreateOne: Symbol.for("ApiUsecaseSingleMainUserCreateOne"),
       },
     },
   },

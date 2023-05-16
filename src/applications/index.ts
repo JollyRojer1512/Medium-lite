@@ -10,6 +10,7 @@ async function start(): Promise<void> {
   await Container.init();
   const server = Container.Services.get<Server>(Symbols.Infrastructure.Server);
 
+  await server.initMainModules();
   server.listen();
 }
 

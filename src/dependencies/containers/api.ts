@@ -17,6 +17,10 @@ import {
   UserGetOnePresenter,
   UserGetOnePresenterImpl,
 } from "../../api/presenters/main/user/getOne";
+import {
+  UserCreateOneUsecase,
+  UserCreateOneUsecaseImpl,
+} from "../../api/usecases/main/user/createOne";
 
 export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Modules
@@ -30,6 +34,9 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   );
 
   // Single
+  bind<UserCreateOneUsecase>(Symbols.Api.Usecase.Single.Main.User.CreateOne).to(
+    UserCreateOneUsecaseImpl
+  );
   bind<UserGetOneUsecase>(Symbols.Api.Usecase.Single.Main.User.GetOne).to(
     UserGetOneUsecaseImpl
   );
