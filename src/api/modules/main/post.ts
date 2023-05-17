@@ -36,7 +36,7 @@ export class PostModule implements Module {
       usecase: this.getOne.bind(this),
     });
     this.app.addGetHandler({
-      name: "/posts/user/:id",
+      name: "/posts/author/:id",
       usecase: this.getAllByUser.bind(this),
     });
     this.app.addGetHandler({

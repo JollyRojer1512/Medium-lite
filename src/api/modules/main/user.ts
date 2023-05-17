@@ -26,16 +26,16 @@ export class UserModule implements Module {
 
   async init(): Promise<void> {
     this.app.addPostHandler({
-      name: "/users",
+      name: "/authors",
       params: UserCreateOneUsecaseParams,
       usecase: this.createOne.bind(this),
     });
     this.app.addGetHandler({
-      name: "/users/:id",
+      name: "/authors/:id",
       usecase: this.getOne.bind(this),
     });
     this.app.addGetHandler({
-      name: "/users/page/:page",
+      name: "/authors/page/:page",
       usecase: this.getPage.bind(this),
     });
   }
