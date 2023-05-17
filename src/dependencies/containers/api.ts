@@ -59,6 +59,10 @@ import {
   UserGetManyPresenter,
   UserGetManyPresenterImpl,
 } from "../../api/presenters/main/user/getMany";
+import {
+  PostGetUsersPerPageUsecase,
+  PostGetUsersPerPageUsecaseImpl,
+} from "../../api/usecases/main/post/getUsersPerPage";
 
 export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Modules
@@ -94,6 +98,9 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   bind<PostGetAllByUserUsecase>(
     Symbols.Api.Usecase.Single.Main.Post.GetAllByUser
   ).to(PostGetAllByUserUsecaseImpl);
+  bind<PostGetUsersPerPageUsecase>(
+    Symbols.Api.Usecase.Single.Main.Post.GetUsersPerPage
+  ).to(PostGetUsersPerPageUsecaseImpl);
 
   // Presenter
 

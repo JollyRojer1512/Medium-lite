@@ -11,6 +11,8 @@ export interface PostService {
   getAllByUserId(id: string): Promise<Post[]>;
 
   getById(id: string): Promise<Post | undefined>;
+
+  getPageByUser(userId: string, page: number, amount: number): Promise<Post[]>;
 }
 
 @injectable()
@@ -34,5 +36,14 @@ export class PostServiceImpl implements PostService {
 
   async getById(id: string): Promise<Post | undefined> {
     return await this.repository.getById(id);
+  }
+
+  async getPageByUser(
+    userId: string,
+    page: number,
+    amount: number
+  ): Promise<Post[]> {
+    const skip = amount * (page - 1);
+    return await this.repository.getBatchByAuthorId(userId, amount, skip);
   }
 }

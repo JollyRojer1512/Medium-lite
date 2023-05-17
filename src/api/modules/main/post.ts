@@ -13,6 +13,7 @@ import {
   PostCreateOneUsecaseInput,
   PostCreateOneUsecaseParams,
 } from "../../usecases/main/post/createOne";
+import { PostGetUsersPerPageUsecaseInput } from "../../usecases/main/post/getUsersPerPage";
 
 @injectable()
 export class PostModule implements Module {
@@ -38,6 +39,10 @@ export class PostModule implements Module {
       name: "/posts/user/:id",
       usecase: this.getAllByUser.bind(this),
     });
+    this.app.addGetHandler({
+      name: "/posts/author/:authorId/page/:page",
+      usecase: this.getUsersPerPage.bind(this),
+    });
   }
 
   private async createOne(
@@ -60,6 +65,14 @@ export class PostModule implements Module {
     context: Context<undefined, PostGetAllByUserUsecaseInput>
   ): Promise<PostGetManyPresenterOutput> {
     const result = await this.usecase.getAllByUser.execute(context);
+    const output = this.presenter.getMany.format(context, result);
+    return output;
+  }
+
+  private async getUsersPerPage(
+    context: Context<undefined, PostGetUsersPerPageUsecaseInput>
+  ): Promise<PostGetManyPresenterOutput> {
+    const result = await this.usecase.getUsersPerPage.execute(context);
     const output = this.presenter.getMany.format(context, result);
     return output;
   }

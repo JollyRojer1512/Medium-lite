@@ -12,6 +12,8 @@ export interface PostRepository {
   getAllByUserId(id: string): Promise<Post[]>;
 
   getById(id: string): Promise<Post | undefined>;
+
+  getBatchByAuthorId(id: string, take: number, skip: number): Promise<Post[]>;
 }
 
 @injectable()
@@ -41,6 +43,23 @@ export class PostRepositoryImpl
   async getById(id: string): Promise<Post | undefined> {
     return await super.getOne({
       where: { id: parseInt(id) },
+      relations: this.defaultRelations,
+    });
+  }
+
+  async getBatchByAuthorId(
+    id: string,
+    take: number,
+    skip: number
+  ): Promise<Post[]> {
+    return await super.getMany({
+      where: {
+        author: {
+          id: parseInt(id),
+        },
+      },
+      take,
+      skip,
       relations: this.defaultRelations,
     });
   }

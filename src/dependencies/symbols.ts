@@ -47,6 +47,7 @@ const Usecase = {
         CreateOne: Symbol.for("ApiUsecaseSingleMainPostCreateOne"),
         GetOne: Symbol.for("ApiUsecaseSingleMainPostGetOne"),
         GetAllByUser: Symbol.for("ApiUsecaseSingleMainPostGetAllByUser"),
+        GetUsersPerPage: Symbol.for("ApiUsecaseSingleMainPostGetUsersPerPage"),
       },
     },
   },

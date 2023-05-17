@@ -32,6 +32,7 @@ export class UserServiceImpl implements UserService {
   }
 
   async getPage(page: number, amount: number): Promise<User[]> {
-    return await this.repository.getBatch(amount, page);
+    const skip = amount * (page - 1);
+    return await this.repository.getBatch(amount, skip);
   }
 }
