@@ -1,6 +1,6 @@
 import { MultiLang, UserLanguage } from "../config";
 import { DbErrorCodes } from "./codes";
-import { ErrorPresenter } from "./main";
+import { BaseError, ErrorPresenter } from "./main";
 
 export type DBDefaultError = {
   query: string;
@@ -14,7 +14,7 @@ export type DbErrorParams = {
   field?: string;
 };
 
-export class DbError {
+export class DbError implements BaseError {
   private readonly code: DbErrorCodes;
   private readonly field: string | undefined;
 

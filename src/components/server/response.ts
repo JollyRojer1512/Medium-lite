@@ -1,5 +1,5 @@
 import { Response as ExpressResponse } from "express";
-import { BaseError } from "../error/main";
+import { BaseError, UnexpectedError } from "../error/main";
 
 export class Response {
   constructor(private readonly response: ExpressResponse) {}
@@ -15,8 +15,10 @@ export class Response {
     this.response.end(output);
   }
 
-  async error(error: BaseError | unknown): Promise<void> {
-    const presenter = error instanceof BaseError ? error.presenter() : error;
+  async error(error: BaseError | any): Promise<void> {
+    const presenter = error.presenter
+      ? error.presenter()
+      : new UnexpectedError(error.message).presenter();
     const result = { error: presenter };
     const output = Buffer.from(JSON.stringify(result));
 

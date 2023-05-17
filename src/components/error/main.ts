@@ -1,66 +1,122 @@
 import { MainErrorCodes } from "./codes";
-import { UserLanguage } from "../config";
+import { MultiLang, UserLanguage } from "../config";
 
 export type ErrorPresenter = {
   message: string;
   code: number;
 };
 
-export class BaseError {
-  public constructor(
-    readonly message: string,
-    readonly code: MainErrorCodes,
-    readonly externalError?: any
-  ) {}
+export interface BaseError {
+  presenter(lang?: UserLanguage): ErrorPresenter;
+}
 
-  presenter(): ErrorPresenter {
+export class ServerIsListening implements BaseError {
+  private readonly code = MainErrorCodes.serverIsListening;
+
+  constructor(private readonly lang: UserLanguage = UserLanguage.ru) {}
+
+  presenter(lang = this.lang): ErrorPresenter {
     return {
-      message: this.message,
+      message: this.getMessage()[lang],
       code: this.code,
     };
   }
-}
 
-export class ServerIsListening extends BaseError {
-  constructor(lang: UserLanguage = UserLanguage.ru) {
-    const message = {
+  private getMessage(): MultiLang {
+    return {
       uz: "Server allaqachon ishlamoqda",
       ru: "Сервер уже работает",
       en: "Server is listening",
     };
-    super(message[lang], MainErrorCodes.serverIsListening);
   }
 }
 
-export class InvalidParam extends BaseError {
-  constructor(name: string, lang: UserLanguage = UserLanguage.ru) {
-    const message = {
-      uz: `Invalid Param ${name}`,
-      ru: `Invalid Param ${name}`,
-      en: `Invalid Param ${name}`,
+export class InvalidParam implements BaseError {
+  private readonly code = MainErrorCodes.serverIsListening;
+
+  constructor(
+    private readonly name: string,
+    private readonly lang: UserLanguage = UserLanguage.ru
+  ) {}
+
+  presenter(lang = this.lang): ErrorPresenter {
+    return {
+      message: this.getMessage()[lang],
+      code: this.code,
     };
-    super(message[lang], MainErrorCodes.serverIsListening);
+  }
+
+  private getMessage(): MultiLang {
+    return {
+      uz: `Invalid Param ${this.name}`,
+      ru: `Invalid Param ${this.name}`,
+      en: `Invalid Param ${this.name}`,
+    };
   }
 }
 
-export class UserNotFound extends BaseError {
-  constructor(lang: UserLanguage = UserLanguage.ru) {
-    const message = {
+export class UnexpectedError implements BaseError {
+  private readonly code = MainErrorCodes.unexpectedError;
+
+  constructor(
+    private readonly message: string,
+    private readonly lang: UserLanguage = UserLanguage.ru
+  ) {}
+
+  presenter(lang = this.lang): ErrorPresenter {
+    return {
+      message: this.getMessage()[lang],
+      code: this.code,
+    };
+  }
+
+  private getMessage(): MultiLang {
+    return {
+      uz: `Kutilmagan xatolik: ${this.message}`,
+      ru: `Непредвиденная ошибка: ${this.message}`,
+      en: `Unexpected error: ${this.message}`,
+    };
+  }
+}
+
+export class UserNotFound implements BaseError {
+  private readonly code = MainErrorCodes.userNotFound;
+
+  constructor(private readonly lang: UserLanguage = UserLanguage.ru) {}
+
+  presenter(lang = this.lang): ErrorPresenter {
+    return {
+      message: this.getMessage()[lang],
+      code: this.code,
+    };
+  }
+
+  private getMessage(): MultiLang {
+    return {
       uz: `Foydalanuvchi topilmadi`,
       ru: `Пользователь не найден`,
       en: `User not found`,
     };
-    super(message[lang], MainErrorCodes.userNotFound);
   }
 }
 
-export class PostNotFound extends BaseError {
-  constructor(lang: UserLanguage = UserLanguage.ru) {
-    const message = {
+export class PostNotFound implements BaseError {
+  private readonly code = MainErrorCodes.postNotFound;
+
+  constructor(private readonly lang: UserLanguage = UserLanguage.ru) {}
+
+  presenter(lang = this.lang): ErrorPresenter {
+    return {
+      message: this.getMessage()[lang],
+      code: this.code,
+    };
+  }
+
+  private getMessage(): MultiLang {
+    return {
       uz: `Post topilmadi`,
       ru: `Пост не найден`,
       en: `Post not found`,
     };
-    super(message[lang], MainErrorCodes.postNotFound);
   }
 }
