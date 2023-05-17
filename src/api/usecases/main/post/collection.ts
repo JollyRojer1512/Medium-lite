@@ -4,12 +4,14 @@ import { PostGetOneUsecase } from "./getOne";
 import { PostGetAllByUserUsecase } from "./getAllByUser";
 import { PostCreateOneUsecase } from "./createOne";
 import { PostGetUsersPerPageUsecase } from "./getUsersPerPage";
+import { PostRateOneUsecase } from "./rateOne";
 
 export interface PostUsecaseCollection {
   createOne: PostCreateOneUsecase;
   getOne: PostGetOneUsecase;
   getAllByUser: PostGetAllByUserUsecase;
   getUsersPerPage: PostGetUsersPerPageUsecase;
+  rateOne: PostRateOneUsecase;
 }
 
 @injectable()
@@ -22,6 +24,8 @@ export class PostUsecaseCollectionImpl implements PostUsecaseCollection {
     @inject(Symbols.Api.Usecase.Single.Main.Post.GetAllByUser)
     readonly getAllByUser: PostGetAllByUserUsecase,
     @inject(Symbols.Api.Usecase.Single.Main.Post.GetUsersPerPage)
-    readonly getUsersPerPage: PostGetUsersPerPageUsecase
+    readonly getUsersPerPage: PostGetUsersPerPageUsecase,
+    @inject(Symbols.Api.Usecase.Single.Main.Post.RateOne)
+    readonly rateOne: PostRateOneUsecase
   ) {}
 }

@@ -14,6 +14,10 @@ export interface PostRepository {
   getById(id: string): Promise<Post | undefined>;
 
   getBatchByAuthorId(id: string, take: number, skip: number): Promise<Post[]>;
+
+  updateRating(id: string, rating: number): Promise<unknown>;
+
+  countAverageRatingByUserId(id: string): Promise<any>;
 }
 
 @injectable()
@@ -62,5 +66,21 @@ export class PostRepositoryImpl
       skip,
       relations: this.defaultRelations,
     });
+  }
+
+  async updateRating(id: string, rating: number): Promise<unknown> {
+    return await super.updateOne({ id: parseInt(id) }, { rating });
+  }
+
+  async countAverageRatingByUserId(id: string): Promise<any> {
+    return await super.kostylAverageForSameColumnNameTables(
+      {
+        queryBuilderAlias: "Post",
+        leftJoinAndSelectProperty: "Post.author",
+        leftJoinAndSelectAlias: "author",
+        selection: "Post.rating",
+      },
+      { author: { id: parseInt(id) } }
+    );
   }
 }

@@ -5,16 +5,17 @@ import { Symbols } from "../../../../dependencies/symbols";
 import { UserService } from "../../../../architecture/service/main/user";
 import { UserNotFound } from "../../../../components/error/main";
 
-export type UserGetOneUsecaseInput = {
+export type UserGetOneUsecaseQueryInput = {
   id: string;
 };
+export type UserGetOneUsecaseBodyInput = {};
 type UserGetOneUsecaseOutput = {
   user: User;
 };
 
 export interface UserGetOneUsecase {
   execute(
-    context: Context<undefined, UserGetOneUsecaseInput>
+    context: Context<UserGetOneUsecaseBodyInput, UserGetOneUsecaseQueryInput>
   ): Promise<UserGetOneUsecaseOutput>;
 }
 
@@ -26,7 +27,7 @@ export class UserGetOneUsecaseImpl implements UserGetOneUsecase {
   ) {}
 
   async execute(
-    context: Context<undefined, UserGetOneUsecaseInput>
+    context: Context<UserGetOneUsecaseBodyInput, UserGetOneUsecaseQueryInput>
   ): Promise<UserGetOneUsecaseOutput> {
     const user = await this.userService.getById(context.queryParams.id);
     if (!user) throw new UserNotFound();

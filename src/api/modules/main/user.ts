@@ -1,21 +1,29 @@
 import { inject, injectable } from "inversify";
 import { Symbols } from "../../../dependencies/symbols";
 import { App } from "../../../components/server/app";
-import { UserGetOneUsecaseInput } from "../../usecases/main/user/getOne";
+import {
+  UserGetOneUsecaseBodyInput,
+  UserGetOneUsecaseQueryInput,
+} from "../../usecases/main/user/getOne";
 import { UserUsecaseCollection } from "../../usecases/main/user/collection";
 import { Context } from "../../../components/server/context";
 import { UserPresenterCollection } from "../../presenters/main/user/collection";
 import { UserGetOnePresenterOutput } from "../../presenters/main/user/getOne";
 import {
-  UserCreateOneUsecaseInput,
+  UserCreateOneUsecaseBodyInput,
   UserCreateOneUsecaseParams,
+  UserCreateOneUsecaseQueryInput,
 } from "../../usecases/main/user/createOne";
 import { Module } from "../base";
 import { UserGetManyPresenterOutput } from "../../presenters/main/user/getMany";
-import { UserGetPageUsecaseInput } from "../../usecases/main/user/getPage";
 import {
-  UserLoginUsecaseInput,
+  UserGetPageUsecaseBodyInput,
+  UserGetPageUsecaseQueryInput,
+} from "../../usecases/main/user/getPage";
+import {
+  UserLoginUsecaseBodyInput,
   UserLoginUsecaseParams,
+  UserLoginUsecaseQueryInput,
 } from "../../usecases/main/user/login";
 
 @injectable()
@@ -50,7 +58,10 @@ export class UserModule implements Module {
   }
 
   private async createOne(
-    context: Context<UserCreateOneUsecaseInput, undefined>
+    context: Context<
+      UserCreateOneUsecaseBodyInput,
+      UserCreateOneUsecaseQueryInput
+    >
   ): Promise<UserGetOnePresenterOutput> {
     const result = await this.usecase.createOne.execute(context);
     const output = this.presenter.getOne.format(context, result);
@@ -58,7 +69,7 @@ export class UserModule implements Module {
   }
 
   private async getOne(
-    context: Context<undefined, UserGetOneUsecaseInput>
+    context: Context<UserGetOneUsecaseBodyInput, UserGetOneUsecaseQueryInput>
   ): Promise<UserGetOnePresenterOutput> {
     const result = await this.usecase.getOne.execute(context);
     const output = this.presenter.getOne.format(context, result);
@@ -66,7 +77,7 @@ export class UserModule implements Module {
   }
 
   private async getPage(
-    context: Context<undefined, UserGetPageUsecaseInput>
+    context: Context<UserGetPageUsecaseBodyInput, UserGetPageUsecaseQueryInput>
   ): Promise<UserGetManyPresenterOutput> {
     const result = await this.usecase.getPage.execute(context);
     const output = this.presenter.getMany.format(context, result);
@@ -74,7 +85,7 @@ export class UserModule implements Module {
   }
 
   private async login(
-    context: Context<UserLoginUsecaseInput, undefined>
+    context: Context<UserLoginUsecaseBodyInput, UserLoginUsecaseQueryInput>
   ): Promise<UserGetOnePresenterOutput> {
     const result = await this.usecase.login.execute(context);
     const output = this.presenter.getOne.format(context, result);

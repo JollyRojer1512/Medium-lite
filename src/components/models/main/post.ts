@@ -3,17 +3,20 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { TableNames } from "../types";
 import { User, UserPresenter } from "./user";
+import { Review } from "./review";
 
 export interface PostModel {
   id: number;
   createTime: Date;
-  title: string;
-  content: string;
   author: User;
+  content: string;
+  title: string;
+  rating: number;
 }
 
 export type PostPresenter = Omit<PostModel, "author"> & {
@@ -32,12 +35,19 @@ export class Post implements PostModel {
   @Column({ type: "text", length: 100 })
   title!: string;
 
-  @Column({ type: "longtext" })
+  @Column({ type: "text" })
   content!: string;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn()
   author!: User;
+
+  @OneToMany(() => Review, (review) => review.post)
+  @JoinColumn()
+  reviews!: Review[];
+
+  @Column({ type: "int", default: 0 })
+  rating!: number;
 
   private readonly symbolsToReadPerMinute = 100;
 
@@ -49,6 +59,7 @@ export class Post implements PostModel {
       title: this.title,
       author: this.author.presenter(),
       readTime: Math.ceil(this.content.length / this.symbolsToReadPerMinute),
+      rating: this.rating,
     };
   }
 }

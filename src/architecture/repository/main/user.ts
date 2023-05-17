@@ -13,6 +13,8 @@ export interface UserRepository {
   getByEmail(email: string): Promise<User | undefined>;
 
   getBatch(take: number, skip: number): Promise<User[]>;
+
+  updateRating(id: string, rating: number): Promise<unknown>;
 }
 
 @injectable()
@@ -38,5 +40,9 @@ export class UserRepositoryImpl
 
   async getBatch(take: number, skip: number): Promise<User[]> {
     return await super.getMany({ skip, take });
+  }
+
+  async updateRating(id: string, rating: number): Promise<unknown> {
+    return await super.updateOne({ id: parseInt(id) }, { rating });
   }
 }

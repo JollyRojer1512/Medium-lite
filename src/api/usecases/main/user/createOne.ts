@@ -5,13 +5,14 @@ import { Symbols } from "../../../../dependencies/symbols";
 import { UserService } from "../../../../architecture/service/main/user";
 import { ParamsDeclaration, Validate } from "../../base";
 
-export const UserCreateOneUsecaseParams: ParamsDeclaration<UserCreateOneUsecaseInput> =
+export const UserCreateOneUsecaseParams: ParamsDeclaration<UserCreateOneUsecaseBodyInput> =
   {
     email: { type: String, validate: Validate.email },
     password: { type: String },
   };
 
-export type UserCreateOneUsecaseInput = {
+export type UserCreateOneUsecaseQueryInput = {};
+export type UserCreateOneUsecaseBodyInput = {
   email: string;
   password: string;
 };
@@ -21,7 +22,10 @@ type UserCreateOneUsecaseOutput = {
 
 export interface UserCreateOneUsecase {
   execute(
-    context: Context<UserCreateOneUsecaseInput, undefined>
+    context: Context<
+      UserCreateOneUsecaseBodyInput,
+      UserCreateOneUsecaseQueryInput
+    >
   ): Promise<UserCreateOneUsecaseOutput>;
 }
 
@@ -33,7 +37,10 @@ export class UserCreateOneUsecaseImpl implements UserCreateOneUsecase {
   ) {}
 
   async execute(
-    context: Context<UserCreateOneUsecaseInput, undefined>
+    context: Context<
+      UserCreateOneUsecaseBodyInput,
+      UserCreateOneUsecaseQueryInput
+    >
   ): Promise<UserCreateOneUsecaseOutput> {
     const user = await this.userService.createNew({
       email: context.bodyParams.email,

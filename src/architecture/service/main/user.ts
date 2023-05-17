@@ -3,6 +3,7 @@ import { Symbols } from "../../../dependencies/symbols";
 import { UserRepository } from "../../repository/main/user";
 import { User, UserModel } from "../../../components/models/main/user";
 import { CryptService } from "./crypt";
+import { PostRepository } from "../../repository/main/post";
 
 type UserServiceCreateNewParams = Omit<UserModel, "id" | "createTime">;
 
@@ -20,6 +21,8 @@ export interface UserService {
     salt: string,
     hashedPassword: string
   ): Promise<boolean>;
+
+  updateRating(id: string): Promise<unknown>;
 }
 
 @injectable()
@@ -27,6 +30,8 @@ export class UserServiceImpl implements UserService {
   constructor(
     @inject(Symbols.Architecture.Repository.Main.User)
     private readonly repository: UserRepository,
+    @inject(Symbols.Architecture.Repository.Main.Post)
+    private readonly postRepository: PostRepository,
     @inject(Symbols.Architecture.Service.Main.Crypt)
     private readonly cryptService: CryptService
   ) {}
@@ -67,5 +72,10 @@ export class UserServiceImpl implements UserService {
       salt
     );
     return saltedPassword === hashedPassword;
+  }
+
+  async updateRating(id: string): Promise<unknown> {
+    const rating = await this.postRepository.countAverageRatingByUserId(id);
+    return await this.repository.updateRating(id, rating);
   }
 }

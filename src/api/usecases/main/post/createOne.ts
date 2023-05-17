@@ -7,14 +7,15 @@ import { ParamsDeclaration } from "../../base";
 import { UserService } from "../../../../architecture/service/main/user";
 import { UserNotFound } from "../../../../components/error/main";
 
-export const PostCreateOneUsecaseParams: ParamsDeclaration<PostCreateOneUsecaseInput> =
+export const PostCreateOneUsecaseParams: ParamsDeclaration<PostCreateOneUsecaseBodyInput> =
   {
     authorId: { type: Number },
     title: { type: String },
     content: { type: String },
   };
 
-export type PostCreateOneUsecaseInput = {
+export type PostCreateOneUsecaseQueryInput = {};
+export type PostCreateOneUsecaseBodyInput = {
   authorId: number;
   title: string;
   content: string;
@@ -25,7 +26,10 @@ type PostCreateOneUsecaseOutput = {
 
 export interface PostCreateOneUsecase {
   execute(
-    context: Context<PostCreateOneUsecaseInput, undefined>
+    context: Context<
+      PostCreateOneUsecaseBodyInput,
+      PostCreateOneUsecaseQueryInput
+    >
   ): Promise<PostCreateOneUsecaseOutput>;
 }
 
@@ -39,7 +43,10 @@ export class PostCreateOneUsecaseImpl implements PostCreateOneUsecase {
   ) {}
 
   async execute(
-    context: Context<PostCreateOneUsecaseInput, undefined>
+    context: Context<
+      PostCreateOneUsecaseBodyInput,
+      PostCreateOneUsecaseQueryInput
+    >
   ): Promise<PostCreateOneUsecaseOutput> {
     const user = await this.userService.getById(
       context.bodyParams.authorId.toString()

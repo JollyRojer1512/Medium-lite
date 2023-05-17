@@ -67,6 +67,10 @@ import {
   UserLoginUsecase,
   UserLoginUsecaseImpl,
 } from "../../api/usecases/main/user/login";
+import {
+  PostRateOneUsecase,
+  PostRateOneUsecaseImpl,
+} from "../../api/usecases/main/post/rateOne";
 
 export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Modules
@@ -108,6 +112,9 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   bind<PostGetUsersPerPageUsecase>(
     Symbols.Api.Usecase.Single.Main.Post.GetUsersPerPage
   ).to(PostGetUsersPerPageUsecaseImpl);
+  bind<PostRateOneUsecase>(Symbols.Api.Usecase.Single.Main.Post.RateOne).to(
+    PostRateOneUsecaseImpl
+  );
 
   // Presenter
 

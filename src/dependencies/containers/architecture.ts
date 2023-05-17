@@ -20,6 +20,14 @@ import {
   CryptService,
   CryptServiceImpl,
 } from "../../architecture/service/main/crypt";
+import {
+  ReviewService,
+  ReviewServiceImpl,
+} from "../../architecture/service/main/review";
+import {
+  ReviewRepository,
+  ReviewRepositoryImpl,
+} from "../../architecture/repository/main/review";
 
 export const ArchitectureContainer = new ContainerModule(
   (bind: interfaces.Bind) => {
@@ -30,6 +38,9 @@ export const ArchitectureContainer = new ContainerModule(
     bind<PostService>(Symbols.Architecture.Service.Main.Post).to(
       PostServiceImpl
     );
+    bind<ReviewService>(Symbols.Architecture.Service.Main.Review).to(
+      ReviewServiceImpl
+    );
     bind<UserService>(Symbols.Architecture.Service.Main.User).to(
       UserServiceImpl
     );
@@ -37,6 +48,9 @@ export const ArchitectureContainer = new ContainerModule(
     // Repository
     bind<PostRepository>(Symbols.Architecture.Repository.Main.Post).to(
       PostRepositoryImpl
+    );
+    bind<ReviewRepository>(Symbols.Architecture.Repository.Main.Review).to(
+      ReviewRepositoryImpl
     );
     bind<UserRepository>(Symbols.Architecture.Repository.Main.User).to(
       UserRepositoryImpl

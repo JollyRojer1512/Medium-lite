@@ -1,19 +1,34 @@
 import { inject, injectable } from "inversify";
 import { Symbols } from "../../../dependencies/symbols";
 import { App } from "../../../components/server/app";
-import { PostGetOneUsecaseInput } from "../../usecases/main/post/getOne";
+import {
+  PostGetOneUsecaseBodyInput,
+  PostGetOneUsecaseQueryInput,
+} from "../../usecases/main/post/getOne";
 import { PostUsecaseCollection } from "../../usecases/main/post/collection";
 import { Context } from "../../../components/server/context";
 import { PostPresenterCollection } from "../../presenters/main/post/collection";
 import { PostGetOnePresenterOutput } from "../../presenters/main/post/getOne";
 import { Module } from "../base";
-import { PostGetAllByUserUsecaseInput } from "../../usecases/main/post/getAllByUser";
+import {
+  PostGetAllByUserUsecaseBodyInput,
+  PostGetAllByUserUsecaseQueryInput,
+} from "../../usecases/main/post/getAllByUser";
 import { PostGetManyPresenterOutput } from "../../presenters/main/post/getMany";
 import {
-  PostCreateOneUsecaseInput,
+  PostCreateOneUsecaseBodyInput,
   PostCreateOneUsecaseParams,
+  PostCreateOneUsecaseQueryInput,
 } from "../../usecases/main/post/createOne";
-import { PostGetUsersPerPageUsecaseInput } from "../../usecases/main/post/getUsersPerPage";
+import {
+  PostGetUsersPerPageUsecaseBodyInput,
+  PostGetUsersPerPageUsecaseQueryInput,
+} from "../../usecases/main/post/getUsersPerPage";
+import {
+  PostRateOneUsecaseBodyInput,
+  PostRateOneUsecaseParams,
+  PostRateOneUsecaseQueryInput,
+} from "../../usecases/main/post/rateOne";
 
 @injectable()
 export class PostModule implements Module {
@@ -31,6 +46,11 @@ export class PostModule implements Module {
       params: PostCreateOneUsecaseParams,
       usecase: this.createOne.bind(this),
     });
+    this.app.addPostHandler({
+      name: "/posts/:postId/rate",
+      params: PostRateOneUsecaseParams,
+      usecase: this.rateOne.bind(this),
+    });
     this.app.addGetHandler({
       name: "/posts/:id",
       usecase: this.getOne.bind(this),
@@ -46,7 +66,10 @@ export class PostModule implements Module {
   }
 
   private async createOne(
-    context: Context<PostCreateOneUsecaseInput, undefined>
+    context: Context<
+      PostCreateOneUsecaseBodyInput,
+      PostCreateOneUsecaseQueryInput
+    >
   ): Promise<PostGetOnePresenterOutput> {
     const result = await this.usecase.createOne.execute(context);
     const output = this.presenter.getOne.format(context, result);
@@ -54,7 +77,7 @@ export class PostModule implements Module {
   }
 
   private async getOne(
-    context: Context<undefined, PostGetOneUsecaseInput>
+    context: Context<PostGetOneUsecaseBodyInput, PostGetOneUsecaseQueryInput>
   ): Promise<PostGetOnePresenterOutput> {
     const result = await this.usecase.getOne.execute(context);
     const output = this.presenter.getOne.format(context, result);
@@ -62,7 +85,10 @@ export class PostModule implements Module {
   }
 
   private async getAllByUser(
-    context: Context<undefined, PostGetAllByUserUsecaseInput>
+    context: Context<
+      PostGetAllByUserUsecaseBodyInput,
+      PostGetAllByUserUsecaseQueryInput
+    >
   ): Promise<PostGetManyPresenterOutput> {
     const result = await this.usecase.getAllByUser.execute(context);
     const output = this.presenter.getMany.format(context, result);
@@ -70,10 +96,21 @@ export class PostModule implements Module {
   }
 
   private async getUsersPerPage(
-    context: Context<undefined, PostGetUsersPerPageUsecaseInput>
+    context: Context<
+      PostGetUsersPerPageUsecaseBodyInput,
+      PostGetUsersPerPageUsecaseQueryInput
+    >
   ): Promise<PostGetManyPresenterOutput> {
     const result = await this.usecase.getUsersPerPage.execute(context);
     const output = this.presenter.getMany.format(context, result);
+    return output;
+  }
+
+  private async rateOne(
+    context: Context<PostRateOneUsecaseBodyInput, PostRateOneUsecaseQueryInput>
+  ): Promise<PostGetOnePresenterOutput> {
+    const result = await this.usecase.rateOne.execute(context);
+    const output = this.presenter.getOne.format(context, result);
     return output;
   }
 }

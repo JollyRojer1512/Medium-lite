@@ -5,16 +5,17 @@ import { Symbols } from "../../../../dependencies/symbols";
 import { PostService } from "../../../../architecture/service/main/post";
 import { PostNotFound } from "../../../../components/error/main";
 
-export type PostGetOneUsecaseInput = {
+export type PostGetOneUsecaseQueryInput = {
   id: string;
 };
+export type PostGetOneUsecaseBodyInput = {};
 type PostGetOneUsecaseOutput = {
   post: Post;
 };
 
 export interface PostGetOneUsecase {
   execute(
-    context: Context<undefined, PostGetOneUsecaseInput>
+    context: Context<PostGetOneUsecaseBodyInput, PostGetOneUsecaseQueryInput>
   ): Promise<PostGetOneUsecaseOutput>;
 }
 
@@ -26,7 +27,7 @@ export class PostGetOneUsecaseImpl implements PostGetOneUsecase {
   ) {}
 
   async execute(
-    context: Context<undefined, PostGetOneUsecaseInput>
+    context: Context<PostGetOneUsecaseBodyInput, PostGetOneUsecaseQueryInput>
   ): Promise<PostGetOneUsecaseOutput> {
     const post = await this.postService.getById(context.queryParams.id);
     if (!post) throw new PostNotFound();

@@ -9,12 +9,14 @@ const Service = {
   Main: {
     Crypt: Symbol.for("ArchitectureServiceMainCrypt"),
     Post: Symbol.for("ArchitectureServiceMainPost"),
+    Review: Symbol.for("ArchitectureServiceMainReview"),
     User: Symbol.for("ArchitectureServiceMainUser"),
   },
 };
 const Repository = {
   Main: {
     Post: Symbol.for("ArchitectureRepositoryMainPost"),
+    Review: Symbol.for("ArchitectureRepositoryMainReview"),
     User: Symbol.for("ArchitectureRepositoryMainUser"),
   },
 };
@@ -44,6 +46,7 @@ const Usecase = {
         GetOne: Symbol.for("ApiUsecaseSingleMainPostGetOne"),
         GetAllByUser: Symbol.for("ApiUsecaseSingleMainPostGetAllByUser"),
         GetUsersPerPage: Symbol.for("ApiUsecaseSingleMainPostGetUsersPerPage"),
+        RateOne: Symbol.for("ApiUsecaseSingleMainPostRateOne"),
       },
       User: {
         CreateOne: Symbol.for("ApiUsecaseSingleMainUserCreateOne"),

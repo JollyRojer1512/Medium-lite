@@ -9,13 +9,14 @@ import {
 } from "../../../../components/error/main";
 import { ParamsDeclaration, Validate } from "../../base";
 
-export const UserLoginUsecaseParams: ParamsDeclaration<UserLoginUsecaseInput> =
+export const UserLoginUsecaseParams: ParamsDeclaration<UserLoginUsecaseBodyInput> =
   {
     email: { type: String, validate: Validate.email },
     password: { type: String },
   };
 
-export type UserLoginUsecaseInput = {
+export type UserLoginUsecaseQueryInput = {};
+export type UserLoginUsecaseBodyInput = {
   email: string;
   password: string;
 };
@@ -25,7 +26,7 @@ type UserLoginUsecaseOutput = {
 
 export interface UserLoginUsecase {
   execute(
-    context: Context<UserLoginUsecaseInput, undefined>
+    context: Context<UserLoginUsecaseBodyInput, UserLoginUsecaseQueryInput>
   ): Promise<UserLoginUsecaseOutput>;
 }
 
@@ -37,7 +38,7 @@ export class UserLoginUsecaseImpl implements UserLoginUsecase {
   ) {}
 
   async execute(
-    context: Context<UserLoginUsecaseInput, undefined>
+    context: Context<UserLoginUsecaseBodyInput, UserLoginUsecaseQueryInput>
   ): Promise<UserLoginUsecaseOutput> {
     const user = await this.userService.getByEmail(context.bodyParams.email);
     if (!user) throw new UserNotFound();

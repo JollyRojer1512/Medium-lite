@@ -28,6 +28,7 @@ export class DbImpl implements Db {
 
   async init(): Promise<void> {
     await this._main.initialize();
+    await this._main.runMigrations();
   }
 
   async close(): Promise<void> {

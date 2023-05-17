@@ -4,17 +4,18 @@ import { User } from "../../../../components/models/main/user";
 import { Symbols } from "../../../../dependencies/symbols";
 import { UserService } from "../../../../architecture/service/main/user";
 
-export type UserGetPageUsecaseInput = {
+export type UserGetPageUsecaseQueryInput = {
   page: string;
   amount?: string;
 };
+export type UserGetPageUsecaseBodyInput = {};
 type UserGetPageUsecaseOutput = {
   users: User[];
 };
 
 export interface UserGetPageUsecase {
   execute(
-    context: Context<undefined, UserGetPageUsecaseInput>
+    context: Context<UserGetPageUsecaseBodyInput, UserGetPageUsecaseQueryInput>
   ): Promise<UserGetPageUsecaseOutput>;
 }
 
@@ -28,7 +29,7 @@ export class UserGetPageUsecaseImpl implements UserGetPageUsecase {
   ) {}
 
   async execute(
-    context: Context<undefined, UserGetPageUsecaseInput>
+    context: Context<UserGetPageUsecaseBodyInput, UserGetPageUsecaseQueryInput>
   ): Promise<UserGetPageUsecaseOutput> {
     const users = await this.userService.getPage(
       parseInt(context.queryParams.page),
