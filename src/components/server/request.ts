@@ -1,6 +1,6 @@
 import { Request as ExpressRequest } from "express";
 import { ParamDeclaration, ParamsDeclaration } from "../../api/usecases/types";
-import { InvalidParam } from "../error/list";
+import { InvalidParam } from "../error/main";
 
 export class Request<Body> {
   private readonly _headers: Record<string, string | string[] | undefined>;
@@ -50,7 +50,7 @@ export class Request<Body> {
     field: ParamDeclaration<T>,
     name: string
   ): T {
-    if (value === undefined) {
+    if (!value) {
       if (field.default) {
         return typeof field.default == "function"
           ? field.default()
@@ -59,7 +59,7 @@ export class Request<Body> {
       throw new InvalidParam(name);
     }
 
-    if (typeof value !== field.type) {
+    if (value.constructor !== field.type) {
       throw new InvalidParam(name);
     }
 

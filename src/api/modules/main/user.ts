@@ -10,9 +10,10 @@ import {
   UserCreateOneUsecaseInput,
   UserCreateOneUsecaseParams,
 } from "../../usecases/main/user/createOne";
+import { Module } from "../base";
 
 @injectable()
-export class UserModule {
+export class UserModule implements Module {
   constructor(
     @inject(Symbols.Infrastructure.App) private readonly app: App,
     @inject(Symbols.Api.Usecase.Collection.Main.User)

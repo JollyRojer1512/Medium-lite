@@ -1,6 +1,12 @@
 import { injectable } from "inversify";
 import * as dotenv from "dotenv";
 
+export type MultiLang = {
+  uz: string;
+  ru: string;
+  en: string;
+};
+
 export enum UserLanguage {
   uz = "uz",
   ru = "ru",

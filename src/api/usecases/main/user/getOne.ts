@@ -3,7 +3,7 @@ import { Context } from "../../../../components/server/context";
 import { User } from "../../../../components/models/main/user";
 import { Symbols } from "../../../../dependencies/symbols";
 import { UserService } from "../../../../architecture/service/main/user";
-import { UserNotFound } from "../../../../components/error/list";
+import { UserNotFound } from "../../../../components/error/main";
 
 export type UserGetOneUsecaseInput = {
   id: string;
@@ -28,9 +28,7 @@ export class UserGetOneUsecaseImpl implements UserGetOneUsecase {
   async execute(
     context: Context<undefined, UserGetOneUsecaseInput>
   ): Promise<UserGetOneUsecaseOutput> {
-    const user = await this.userService.getById(
-      parseInt(context.queryParams.id)
-    );
+    const user = await this.userService.getById(context.queryParams.id);
     if (!user) throw new UserNotFound();
     return { user };
   }

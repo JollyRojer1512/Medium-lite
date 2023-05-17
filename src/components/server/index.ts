@@ -2,11 +2,13 @@ import { inject, injectable } from "inversify";
 import { Symbols } from "../../dependencies/symbols";
 import { Config, ServerConfig } from "../config";
 import { App } from "./app";
-import { ServerIsListening } from "../error/list";
+import { ServerIsListening } from "../error/main";
 import { Container } from "../../dependencies";
+import { Module } from "../../api/modules/base";
 
 export interface Server {
   listen(): Promise<void>;
+
   initMainModules(): Promise<void>;
 }
 
@@ -28,11 +30,11 @@ export class ServerImpl implements Server {
 
   async initMainModules(): Promise<void> {
     for (const key in Symbols.Api.Module.Main) {
-      const module = Container.Services.get<{ init?: () => Promise<void> }>(
+      const module = Container.Services.get<Module>(
         //@ts-ignore Works but ts does not like symbol element
         Symbols.Api.Module.Main[key]
       );
-      if (module.init) await module.init();
+      await module.init();
     }
   }
 

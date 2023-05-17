@@ -7,7 +7,7 @@ type UserGetOnePresenterInput = {
 };
 
 export type UserGetOnePresenterOutput = {
-  user: UserPresenter;
+  author: UserPresenter;
 };
 
 export interface UserGetOnePresenter {
@@ -24,6 +24,6 @@ export class UserGetOnePresenterImpl implements UserGetOnePresenter {
     params: UserGetOnePresenterInput
   ): UserGetOnePresenterOutput {
     const user = params.user.presenter();
-    return { user };
+    return { author: user };
   }
 }

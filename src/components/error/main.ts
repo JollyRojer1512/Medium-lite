@@ -1,12 +1,24 @@
-import { ErrorCodes } from "./codes";
+import { MainErrorCodes } from "./codes";
 import { UserLanguage } from "../config";
+
+export type ErrorPresenter = {
+  message: string;
+  code: number;
+};
 
 export class BaseError {
   public constructor(
     readonly message: string,
-    readonly code: ErrorCodes,
+    readonly code: MainErrorCodes,
     readonly externalError?: any
   ) {}
+
+  presenter(): ErrorPresenter {
+    return {
+      message: this.message,
+      code: this.code,
+    };
+  }
 }
 
 export class ServerIsListening extends BaseError {
@@ -16,7 +28,7 @@ export class ServerIsListening extends BaseError {
       ru: "Сервер уже работает",
       en: "Server is listening",
     };
-    super(message[lang], ErrorCodes.serverIsListening);
+    super(message[lang], MainErrorCodes.serverIsListening);
   }
 }
 
@@ -27,7 +39,7 @@ export class InvalidParam extends BaseError {
       ru: `Invalid Param ${name}`,
       en: `Invalid Param ${name}`,
     };
-    super(message[lang], ErrorCodes.serverIsListening);
+    super(message[lang], MainErrorCodes.serverIsListening);
   }
 }
 
@@ -38,6 +50,17 @@ export class UserNotFound extends BaseError {
       ru: `Пользователь не найден`,
       en: `User not found`,
     };
-    super(message[lang], ErrorCodes.serverIsListening);
+    super(message[lang], MainErrorCodes.userNotFound);
+  }
+}
+
+export class PostNotFound extends BaseError {
+  constructor(lang: UserLanguage = UserLanguage.ru) {
+    const message = {
+      uz: `Post topilmadi`,
+      ru: `Пост не найден`,
+      en: `Post not found`,
+    };
+    super(message[lang], MainErrorCodes.postNotFound);
   }
 }

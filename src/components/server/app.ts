@@ -40,10 +40,7 @@ export class AppImpl implements App {
     this.client.listen(port, host);
   }
 
-  async init(): Promise<void> {
-    // this.client.use(bodyParser.urlencoded({ extended: true }));
-    // this.client.use(bodyParser.json());
-  }
+  async init(): Promise<void> {}
 
   async addGetHandler<P, R>(params: RequestHandlerParams<P, R>): Promise<void> {
     this.client.get(
@@ -80,7 +77,7 @@ export class AppImpl implements App {
       const result = await params.usecase(context);
       await response.success(result);
     } catch (e) {
-      await response.success(e);
+      await response.error(e);
     }
   }
 }

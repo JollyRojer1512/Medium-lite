@@ -21,16 +21,50 @@ import {
   UserCreateOneUsecase,
   UserCreateOneUsecaseImpl,
 } from "../../api/usecases/main/user/createOne";
+import {
+  PostUsecaseCollection,
+  PostUsecaseCollectionImpl,
+} from "../../api/usecases/main/post/collection";
+import {
+  PostGetOneUsecase,
+  PostGetOneUsecaseImpl,
+} from "../../api/usecases/main/post/getOne";
+import {
+  PostGetAllByUserUsecase,
+  PostGetAllByUserUsecaseImpl,
+} from "../../api/usecases/main/post/getAllByUser";
+import {
+  PostPresenterCollection,
+  PostPresenterCollectionImpl,
+} from "../../api/presenters/main/post/collection";
+import {
+  PostGetOnePresenter,
+  PostGetOnePresenterImpl,
+} from "../../api/presenters/main/post/getOne";
+import {
+  PostGetManyPresenter,
+  PostGetManyPresenterImpl,
+} from "../../api/presenters/main/post/getMany";
+import { PostModule } from "../../api/modules/main/post";
+import { Module } from "../../api/modules/base";
+import {
+  PostCreateOneUsecase,
+  PostCreateOneUsecaseImpl,
+} from "../../api/usecases/main/post/createOne";
 
 export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Modules
-  bind<UserModule>(Symbols.Api.Module.Main.User).to(UserModule);
+  bind<Module>(Symbols.Api.Module.Main.User).to(UserModule);
+  bind<Module>(Symbols.Api.Module.Main.Post).to(PostModule);
 
   // Usecase
 
   // Collection
   bind<UserUsecaseCollection>(Symbols.Api.Usecase.Collection.Main.User).to(
     UserUsecaseCollectionImpl
+  );
+  bind<PostUsecaseCollection>(Symbols.Api.Usecase.Collection.Main.Post).to(
+    PostUsecaseCollectionImpl
   );
 
   // Single
@@ -40,6 +74,15 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   bind<UserGetOneUsecase>(Symbols.Api.Usecase.Single.Main.User.GetOne).to(
     UserGetOneUsecaseImpl
   );
+  bind<PostCreateOneUsecase>(Symbols.Api.Usecase.Single.Main.Post.CreateOne).to(
+    PostCreateOneUsecaseImpl
+  );
+  bind<PostGetOneUsecase>(Symbols.Api.Usecase.Single.Main.Post.GetOne).to(
+    PostGetOneUsecaseImpl
+  );
+  bind<PostGetAllByUserUsecase>(
+    Symbols.Api.Usecase.Single.Main.Post.GetAllByUser
+  ).to(PostGetAllByUserUsecaseImpl);
 
   // Presenter
 
@@ -47,9 +90,18 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   bind<UserPresenterCollection>(Symbols.Api.Presenter.Collection.Main.User).to(
     UserPresenterCollectionImpl
   );
+  bind<PostPresenterCollection>(Symbols.Api.Presenter.Collection.Main.Post).to(
+    PostPresenterCollectionImpl
+  );
 
   // Single
   bind<UserGetOnePresenter>(Symbols.Api.Presenter.Single.Main.User.GetOne).to(
     UserGetOnePresenterImpl
+  );
+  bind<PostGetOnePresenter>(Symbols.Api.Presenter.Single.Main.Post.GetOne).to(
+    PostGetOnePresenterImpl
+  );
+  bind<PostGetManyPresenter>(Symbols.Api.Presenter.Single.Main.Post.GetMany).to(
+    PostGetManyPresenterImpl
   );
 });

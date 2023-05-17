@@ -1,4 +1,4 @@
-import { InvalidParam } from "../error/list";
+import { InvalidParam } from "../error/main";
 
 export class Context<Body, Query> {
   constructor(

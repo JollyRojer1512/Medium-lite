@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { TableNames } from "../types";
+import { Post } from "./post";
 
 export interface UserModel {
   id: number;
@@ -23,6 +30,10 @@ export class User implements UserModel {
 
   @Column({ type: "text", length: 20 })
   password!: string;
+
+  @OneToMany((type) => Post, (post) => post.author)
+  @JoinColumn()
+  posts!: Post[];
 
   presenter(): UserPresenter {
     return {
