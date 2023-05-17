@@ -51,6 +51,14 @@ import {
   PostCreateOneUsecase,
   PostCreateOneUsecaseImpl,
 } from "../../api/usecases/main/post/createOne";
+import {
+  UserGetPageUsecase,
+  UserGetPageUsecaseImpl,
+} from "../../api/usecases/main/user/getPage";
+import {
+  UserGetManyPresenter,
+  UserGetManyPresenterImpl,
+} from "../../api/presenters/main/user/getMany";
 
 export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Modules
@@ -73,6 +81,9 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   );
   bind<UserGetOneUsecase>(Symbols.Api.Usecase.Single.Main.User.GetOne).to(
     UserGetOneUsecaseImpl
+  );
+  bind<UserGetPageUsecase>(Symbols.Api.Usecase.Single.Main.User.GetPage).to(
+    UserGetPageUsecaseImpl
   );
   bind<PostCreateOneUsecase>(Symbols.Api.Usecase.Single.Main.Post.CreateOne).to(
     PostCreateOneUsecaseImpl
@@ -97,6 +108,9 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Single
   bind<UserGetOnePresenter>(Symbols.Api.Presenter.Single.Main.User.GetOne).to(
     UserGetOnePresenterImpl
+  );
+  bind<UserGetManyPresenter>(Symbols.Api.Presenter.Single.Main.User.GetMany).to(
+    UserGetManyPresenterImpl
   );
   bind<PostGetOnePresenter>(Symbols.Api.Presenter.Single.Main.Post.GetOne).to(
     PostGetOnePresenterImpl

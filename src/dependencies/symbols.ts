@@ -41,6 +41,7 @@ const Usecase = {
       User: {
         CreateOne: Symbol.for("ApiUsecaseSingleMainUserCreateOne"),
         GetOne: Symbol.for("ApiUsecaseSingleMainUserGetOne"),
+        GetPage: Symbol.for("ApiUsecaseSingleMainUserGetPage"),
       },
       Post: {
         CreateOne: Symbol.for("ApiUsecaseSingleMainPostCreateOne"),
@@ -62,6 +63,7 @@ const Presenter = {
     Main: {
       User: {
         GetOne: Symbol.for("ApiPresenterSingleMainUserGetOne"),
+        GetMany: Symbol.for("ApiPresenterSingleMainUserGetMany"),
       },
       Post: {
         GetOne: Symbol.for("ApiPresenterSingleMainPostGetOne"),

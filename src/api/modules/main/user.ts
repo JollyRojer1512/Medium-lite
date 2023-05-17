@@ -11,6 +11,8 @@ import {
   UserCreateOneUsecaseParams,
 } from "../../usecases/main/user/createOne";
 import { Module } from "../base";
+import { UserGetManyPresenterOutput } from "../../presenters/main/user/getMany";
+import { UserGetPageUsecaseInput } from "../../usecases/main/user/getPage";
 
 @injectable()
 export class UserModule implements Module {
@@ -23,15 +25,27 @@ export class UserModule implements Module {
   ) {}
 
   async init(): Promise<void> {
-    this.app.addGetHandler({
-      name: "/users/:id",
-      usecase: this.getOne.bind(this),
-    });
     this.app.addPostHandler({
       name: "/users",
       params: UserCreateOneUsecaseParams,
       usecase: this.createOne.bind(this),
     });
+    this.app.addGetHandler({
+      name: "/users/:id",
+      usecase: this.getOne.bind(this),
+    });
+    this.app.addGetHandler({
+      name: "/users/page/:page",
+      usecase: this.getPage.bind(this),
+    });
+  }
+
+  private async createOne(
+    context: Context<UserCreateOneUsecaseInput, undefined>
+  ): Promise<UserGetOnePresenterOutput> {
+    const result = await this.usecase.createOne.execute(context);
+    const output = this.presenter.getOne.format(context, result);
+    return output;
   }
 
   private async getOne(
@@ -42,11 +56,11 @@ export class UserModule implements Module {
     return output;
   }
 
-  private async createOne(
-    context: Context<UserCreateOneUsecaseInput, undefined>
-  ): Promise<UserGetOnePresenterOutput> {
-    const result = await this.usecase.createOne.execute(context);
-    const output = this.presenter.getOne.format(context, result);
+  private async getPage(
+    context: Context<undefined, UserGetPageUsecaseInput>
+  ): Promise<UserGetManyPresenterOutput> {
+    const result = await this.usecase.getPage.execute(context);
+    const output = this.presenter.getMany.format(context, result);
     return output;
   }
 }

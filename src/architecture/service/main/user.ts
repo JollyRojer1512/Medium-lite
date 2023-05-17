@@ -9,6 +9,8 @@ export interface UserService {
   createNew(params: UserServiceCreateNewParams): Promise<User>;
 
   getById(id: string): Promise<User | undefined>;
+
+  getPage(page: number, amount: number): Promise<User[]>;
 }
 
 @injectable()
@@ -27,5 +29,9 @@ export class UserServiceImpl implements UserService {
 
   async getById(id: string): Promise<User | undefined> {
     return await this.repository.getById(id);
+  }
+
+  async getPage(page: number, amount: number): Promise<User[]> {
+    return await this.repository.getBatch(amount, page);
   }
 }

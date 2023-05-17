@@ -9,6 +9,7 @@ export interface UserRepository {
   insertOne(entity: User): Promise<User>;
 
   getById(id: string): Promise<User | undefined>;
+  getBatch(batchSize: number, batchOrder: number): Promise<User[]>;
 }
 
 @injectable()
@@ -26,5 +27,10 @@ export class UserRepositoryImpl
 
   async getById(id: string): Promise<User | undefined> {
     return await super.getOne({ where: { id: parseInt(id) } });
+  }
+
+  async getBatch(batchSize: number, batchOrder: number): Promise<User[]> {
+    const skip = batchSize * (batchOrder - 1);
+    return await super.getMany({ skip, take: batchSize });
   }
 }
