@@ -3,16 +3,12 @@ import { Context } from "../../../../components/server/context";
 import { User } from "../../../../components/models/main/user";
 import { Symbols } from "../../../../dependencies/symbols";
 import { UserService } from "../../../../architecture/service/main/user";
-import { ParamsDeclaration } from "../../types";
+import { ParamsDeclaration, Validate } from "../../base";
 
 export const UserCreateOneUsecaseParams: ParamsDeclaration<UserCreateOneUsecaseInput> =
   {
-    email: {
-      type: String,
-    },
-    password: {
-      type: String,
-    },
+    email: { type: String, validate: Validate.email },
+    password: { type: String },
   };
 
 export type UserCreateOneUsecaseInput = {

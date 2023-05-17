@@ -3,7 +3,7 @@ import { Context } from "../../../../components/server/context";
 import { Post } from "../../../../components/models/main/post";
 import { Symbols } from "../../../../dependencies/symbols";
 import { PostService } from "../../../../architecture/service/main/post";
-import { ParamsDeclaration } from "../../types";
+import { ParamsDeclaration } from "../../base";
 import { UserService } from "../../../../architecture/service/main/user";
 import { UserNotFound } from "../../../../components/error/main";
 

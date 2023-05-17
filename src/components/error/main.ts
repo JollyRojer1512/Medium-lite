@@ -32,7 +32,7 @@ export class ServerIsListening implements BaseError {
 }
 
 export class InvalidParam implements BaseError {
-  private readonly code = MainErrorCodes.serverIsListening;
+  private readonly code = MainErrorCodes.invalidParameter;
 
   constructor(
     private readonly name: string,
@@ -96,6 +96,27 @@ export class UserNotFound implements BaseError {
       uz: `Foydalanuvchi topilmadi`,
       ru: `Пользователь не найден`,
       en: `User not found`,
+    };
+  }
+}
+
+export class InvalidLoginData implements BaseError {
+  private readonly code = MainErrorCodes.invalidLoginData;
+
+  constructor(private readonly lang: UserLanguage = UserLanguage.ru) {}
+
+  presenter(lang = this.lang): ErrorPresenter {
+    return {
+      message: this.getMessage()[lang],
+      code: this.code,
+    };
+  }
+
+  private getMessage(): MultiLang {
+    return {
+      uz: `Email yoki Parol noto'gri terilgan`,
+      ru: `Email или Пароль введены неверно`,
+      en: `Email or Password are incorrect`,
     };
   }
 }

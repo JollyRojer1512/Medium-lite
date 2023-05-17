@@ -10,6 +10,8 @@ export interface UserRepository {
 
   getById(id: string): Promise<User | undefined>;
 
+  getByEmail(email: string): Promise<User | undefined>;
+
   getBatch(take: number, skip: number): Promise<User[]>;
 }
 
@@ -28,6 +30,10 @@ export class UserRepositoryImpl
 
   async getById(id: string): Promise<User | undefined> {
     return await super.getOne({ where: { id: parseInt(id) } });
+  }
+
+  async getByEmail(email: string): Promise<User | undefined> {
+    return await super.getOne({ where: { email } });
   }
 
   async getBatch(take: number, skip: number): Promise<User[]> {

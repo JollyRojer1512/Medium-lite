@@ -16,10 +16,17 @@ import {
   PostRepository,
   PostRepositoryImpl,
 } from "../../architecture/repository/main/post";
+import {
+  CryptService,
+  CryptServiceImpl,
+} from "../../architecture/service/main/crypt";
 
 export const ArchitectureContainer = new ContainerModule(
   (bind: interfaces.Bind) => {
     // Service
+    bind<CryptService>(Symbols.Architecture.Service.Main.Crypt).to(
+      CryptServiceImpl
+    );
     bind<PostService>(Symbols.Architecture.Service.Main.Post).to(
       PostServiceImpl
     );

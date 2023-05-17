@@ -7,14 +7,15 @@ const Infrastructure = {
 
 const Service = {
   Main: {
-    User: Symbol.for("ArchitectureServiceMainUser"),
+    Crypt: Symbol.for("ArchitectureServiceMainCrypt"),
     Post: Symbol.for("ArchitectureServiceMainPost"),
+    User: Symbol.for("ArchitectureServiceMainUser"),
   },
 };
 const Repository = {
   Main: {
-    User: Symbol.for("ArchitectureRepositoryMainUser"),
     Post: Symbol.for("ArchitectureRepositoryMainPost"),
+    User: Symbol.for("ArchitectureRepositoryMainUser"),
   },
 };
 
@@ -25,29 +26,30 @@ const Architecture = {
 
 const Module = {
   Main: {
-    User: Symbol.for("ApiModuleMainUser"),
     Post: Symbol.for("ApiModuleMainPost"),
+    User: Symbol.for("ApiModuleMainUser"),
   },
 };
 const Usecase = {
   Collection: {
     Main: {
-      User: Symbol.for("ApiUsecaseCollectionMainUser"),
       Post: Symbol.for("ApiUsecaseCollectionMainPost"),
+      User: Symbol.for("ApiUsecaseCollectionMainUser"),
     },
   },
   Single: {
     Main: {
-      User: {
-        CreateOne: Symbol.for("ApiUsecaseSingleMainUserCreateOne"),
-        GetOne: Symbol.for("ApiUsecaseSingleMainUserGetOne"),
-        GetPage: Symbol.for("ApiUsecaseSingleMainUserGetPage"),
-      },
       Post: {
         CreateOne: Symbol.for("ApiUsecaseSingleMainPostCreateOne"),
         GetOne: Symbol.for("ApiUsecaseSingleMainPostGetOne"),
         GetAllByUser: Symbol.for("ApiUsecaseSingleMainPostGetAllByUser"),
         GetUsersPerPage: Symbol.for("ApiUsecaseSingleMainPostGetUsersPerPage"),
+      },
+      User: {
+        CreateOne: Symbol.for("ApiUsecaseSingleMainUserCreateOne"),
+        GetOne: Symbol.for("ApiUsecaseSingleMainUserGetOne"),
+        GetPage: Symbol.for("ApiUsecaseSingleMainUserGetPage"),
+        Login: Symbol.for("ApiUsecaseSingleMainUserLogin"),
       },
     },
   },
@@ -56,19 +58,19 @@ const Usecase = {
 const Presenter = {
   Collection: {
     Main: {
-      User: Symbol.for("ApiPresenterCollectionMainUser"),
       Post: Symbol.for("ApiPresenterCollectionMainPost"),
+      User: Symbol.for("ApiPresenterCollectionMainUser"),
     },
   },
   Single: {
     Main: {
-      User: {
-        GetOne: Symbol.for("ApiPresenterSingleMainUserGetOne"),
-        GetMany: Symbol.for("ApiPresenterSingleMainUserGetMany"),
-      },
       Post: {
         GetOne: Symbol.for("ApiPresenterSingleMainPostGetOne"),
         GetMany: Symbol.for("ApiPresenterSingleMainPostGetMany"),
+      },
+      User: {
+        GetOne: Symbol.for("ApiPresenterSingleMainUserGetOne"),
+        GetMany: Symbol.for("ApiPresenterSingleMainUserGetMany"),
       },
     },
   },

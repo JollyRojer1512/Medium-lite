@@ -1,5 +1,5 @@
 import { Request as ExpressRequest } from "express";
-import { ParamDeclaration, ParamsDeclaration } from "../../api/usecases/types";
+import { ParamDeclaration, ParamsDeclaration } from "../../api/usecases/base";
 import { InvalidParam } from "../error/main";
 
 export class Request<Body> {

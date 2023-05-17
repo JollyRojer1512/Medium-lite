@@ -13,6 +13,10 @@ import {
 import { Module } from "../base";
 import { UserGetManyPresenterOutput } from "../../presenters/main/user/getMany";
 import { UserGetPageUsecaseInput } from "../../usecases/main/user/getPage";
+import {
+  UserLoginUsecaseInput,
+  UserLoginUsecaseParams,
+} from "../../usecases/main/user/login";
 
 @injectable()
 export class UserModule implements Module {
@@ -38,6 +42,11 @@ export class UserModule implements Module {
       name: "/authors/page/:page",
       usecase: this.getPage.bind(this),
     });
+    this.app.addPostHandler({
+      name: "/users/login",
+      params: UserLoginUsecaseParams,
+      usecase: this.login.bind(this),
+    });
   }
 
   private async createOne(
@@ -61,6 +70,14 @@ export class UserModule implements Module {
   ): Promise<UserGetManyPresenterOutput> {
     const result = await this.usecase.getPage.execute(context);
     const output = this.presenter.getMany.format(context, result);
+    return output;
+  }
+
+  private async login(
+    context: Context<UserLoginUsecaseInput, undefined>
+  ): Promise<UserGetOnePresenterOutput> {
+    const result = await this.usecase.login.execute(context);
+    const output = this.presenter.getOne.format(context, result);
     return output;
   }
 }

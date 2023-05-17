@@ -28,7 +28,9 @@ export class User implements UserModel {
   @Column({ type: "text", length: 20, unique: true })
   email!: string;
 
-  @Column({ type: "text", length: 20 })
+  @Column({ type: "text", length: 100 })
+  salt!: string;
+  @Column({ type: "text", length: 200 })
   password!: string;
 
   @OneToMany((type) => Post, (post) => post.author)

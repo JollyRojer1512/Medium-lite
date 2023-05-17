@@ -7,7 +7,7 @@ import express, {
 } from "express";
 import { Request } from "./request";
 import { Response } from "./response";
-import { ParamsDeclaration } from "../../api/usecases/types";
+import { ParamsDeclaration } from "../../api/usecases/base";
 import { Context } from "./context";
 
 export type RequestHandlerParams<P, R> = {

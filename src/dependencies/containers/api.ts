@@ -63,6 +63,10 @@ import {
   PostGetUsersPerPageUsecase,
   PostGetUsersPerPageUsecaseImpl,
 } from "../../api/usecases/main/post/getUsersPerPage";
+import {
+  UserLoginUsecase,
+  UserLoginUsecaseImpl,
+} from "../../api/usecases/main/user/login";
 
 export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   // Modules
@@ -88,6 +92,9 @@ export const ApiContainer = new ContainerModule((bind: interfaces.Bind) => {
   );
   bind<UserGetPageUsecase>(Symbols.Api.Usecase.Single.Main.User.GetPage).to(
     UserGetPageUsecaseImpl
+  );
+  bind<UserLoginUsecase>(Symbols.Api.Usecase.Single.Main.User.Login).to(
+    UserLoginUsecaseImpl
   );
   bind<PostCreateOneUsecase>(Symbols.Api.Usecase.Single.Main.Post.CreateOne).to(
     PostCreateOneUsecaseImpl

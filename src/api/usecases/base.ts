@@ -48,3 +48,9 @@ export type PickConstructor<T> = T extends number
   : T extends { [key: number]: any }
   ? typeof Array
   : T;
+
+export class Validate {
+  static email(value: string): boolean {
+    return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value);
+  }
+}
