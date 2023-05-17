@@ -10,7 +10,7 @@ import { User, UserPresenter } from "./user";
 
 export interface PostModel {
   id: number;
-  createTime: number; // Best with ISODate but typeorm cut off time
+  createTime: Date;
   title: string;
   content: string;
   author: User;
@@ -26,13 +26,13 @@ export class Post implements PostModel {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
-  @Column({ type: "integer", update: false })
-  readonly createTime = new Date().getTime();
+  @Column({ type: "datetime", update: false })
+  readonly createTime = new Date();
 
-  @Column({ type: "text", length: 20 })
+  @Column({ type: "text", length: 100 })
   title!: string;
 
-  @Column({ type: "text", length: 20 })
+  @Column({ type: "longtext" })
   content!: string;
 
   @ManyToOne(() => User, (user) => user.posts)

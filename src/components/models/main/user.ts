@@ -10,7 +10,7 @@ import { Post } from "./post";
 
 export interface UserModel {
   id: number;
-  createTime: number; // Best with ISODate but typeorm cut off time
+  createTime: Date;
   email: string;
   password: string;
 }
@@ -22,8 +22,8 @@ export class User implements UserModel {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
-  @Column({ type: "integer", update: false })
-  readonly createTime = new Date().getTime();
+  @Column({ type: "datetime", update: false })
+  readonly createTime = new Date();
 
   @Column({ type: "text", length: 20, unique: true })
   email!: string;
